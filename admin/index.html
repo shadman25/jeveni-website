@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeveni Admin</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{
+  --purple:#57228a;--pink:#ed2879;--ink:#17213b;
+  --muted:#667085;--bg:#f7f5fb;--white:#fff;--border:#e7e3ed;
+  --danger:#c62828;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+button,input{font:inherit}
+.login-wrap{min-height:100vh;display:grid;place-items:center;padding:24px}
+.login-card{width:min(430px,100%);background:#fff;border:1px solid var(--border);
+  border-radius:24px;padding:34px;box-shadow:0 18px 60px rgba(30,20,60,.10)}
+.brand{text-align:center;font-size:32px;font-weight:900;color:var(--purple)}
+.brand span{color:var(--pink)}
+.subtitle{text-align:center;color:var(--muted);margin:6px 0 28px}
+label{display:block;font-weight:700;font-size:14px;margin:16px 0 7px}
+input{width:100%;padding:13px 14px;border:1px solid #d8d3df;border-radius:12px;outline:none}
+input:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(237,40,121,.10)}
+.btn{width:100%;border:0;border-radius:12px;padding:13px 16px;margin-top:22px;
+  color:#fff;font-weight:800;background:linear-gradient(90deg,var(--purple),var(--pink));cursor:pointer}
+.notice{margin-top:18px;padding:12px 14px;border-radius:12px;background:#faf7ff;
+  color:var(--muted);font-size:13px;line-height:1.5}
+.demo{display:none}
+.admin-shell{min-height:100vh}
+.topbar{height:72px;background:#fff;border-bottom:1px solid var(--border);display:flex;
+  align-items:center;justify-content:space-between;padding:0 28px}
+.topbar .brand{font-size:25px}
+.logout{border:1px solid var(--border);background:#fff;border-radius:10px;padding:9px 14px;cursor:pointer}
+.content{max-width:1180px;margin:0 auto;padding:35px 24px}
+.header-row{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:25px}
+.header-row h1{margin:0;font-size:32px}
+.add{border:0;border-radius:12px;padding:12px 17px;color:#fff;font-weight:800;
+  background:linear-gradient(90deg,var(--purple),var(--pink))}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:28px}
+.card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:22px}
+.card small{color:var(--muted);display:block}.card strong{font-size:30px}
+.panel{background:#fff;border:1px solid var(--border);border-radius:18px;padding:24px}
+.panel h2{margin-top:0}
+.empty{padding:35px;text-align:center;color:var(--muted);border:1px dashed #d8d3df;border-radius:14px}
+@media(max-width:700px){
+  .cards{grid-template-columns:1fr}
+  .topbar{padding:0 16px}
+  .content{padding:25px 16px}
+}
+</style>
+</head>
+<body>
+
+<div id="loginScreen" class="login-wrap">
+  <div class="login-card">
+    <div class="brand">Je<span>veni</span></div>
+    <div class="subtitle">Admin Panel</div>
+
+    <label for="email">Email</label>
+    <input id="email" type="email" placeholder="admin@example.com" autocomplete="username">
+
+    <label for="password">Password</label>
+    <input id="password" type="password" placeholder="Password" autocomplete="current-password">
+
+    <button class="btn" id="loginBtn" type="button">Login</button>
+
+    <div class="notice">
+      This is the initial admin interface. Authentication and product
+      management will be connected to Supabase in the next phase.
+    </div>
+  </div>
+</div>
+
+<div id="dashboard" class="admin-shell" style="display:none">
+  <header class="topbar">
+    <div class="brand">Je<span>veni</span> Admin</div>
+    <button class="logout" id="logoutBtn">Logout</button>
+  </header>
+
+  <main class="content">
+    <div class="header-row">
+      <div>
+        <h1>Dashboard</h1>
+        <div style="color:#667085;margin-top:5px">Manage Jeveni products and website content.</div>
+      </div>
+      <button class="add" type="button">+ Add Product</button>
+    </div>
+
+    <div class="cards">
+      <div class="card"><small>Total Products</small><strong>0</strong></div>
+      <div class="card"><small>Active Products</small><strong>0</strong></div>
+      <div class="card"><small>Categories</small><strong>0</strong></div>
+    </div>
+
+    <section class="panel">
+      <h2>Products</h2>
+      <div class="empty">Products will appear here after Supabase is connected.</div>
+    </section>
+  </main>
+</div>
+
+<script>
+const loginScreen = document.getElementById("loginScreen");
+const dashboard = document.getElementById("dashboard");
+
+document.getElementById("loginBtn").addEventListener("click", () => {
+  // Temporary UI-only demo. This is NOT authentication.
+  // Supabase Auth will replace this in the next phase.
+  loginScreen.style.display = "none";
+  dashboard.style.display = "block";
+});
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  dashboard.style.display = "none";
+  loginScreen.style.display = "grid";
+});
+</script>
+
+</body>
+</html>
