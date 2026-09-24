@@ -61,6 +61,67 @@ section{padding:80px 0}
 .contact{background:linear-gradient(135deg,var(--purple),#762da7 45%,var(--pink));color:white}
 .contact .section-title p{color:#f6eefa}.contact-card{max-width:800px;margin:auto;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:35px;border-radius:28px;backdrop-filter:blur(10px);text-align:center}
 .contact-card .btn{margin-top:20px}
+.contact-intro{
+  margin-top:8px;
+  font-size:18px;
+  font-weight:700;
+}
+
+.contact-details{
+  margin-top:28px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  text-align:left;
+}
+
+.contact-item{
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:18px;
+  padding:20px;
+}
+
+.contact-item strong{
+  display:block;
+  margin-bottom:8px;
+  font-size:15px;
+}
+
+.contact-item span{
+  font-size:14px;
+  line-height:1.7;
+}
+
+.contact-item a{
+  color:white;
+  text-decoration:underline;
+}
+
+.contact-buttons{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-top:28px;
+}
+
+.contact-btn{
+  color:var(--purple) !important;
+  background:white !important;
+  border:0 !important;
+  display:inline-block;
+}
+
+.contact-btn:hover{
+  transform:translateY(-2px);
+}
+
+@media(max-width:850px){
+  .contact-details{
+    grid-template-columns:1fr;
+  }
+}
 footer{background:#171329;color:#bbb;padding:35px 0}.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.foot strong{color:white}
 @media(max-width:850px){
  .links{display:none}.hero-grid,.info{grid-template-columns:1fr}.categories{grid-template-columns:1fr 1fr}.product-grid{grid-template-columns:1fr 1fr}.knowledge{grid-template-columns:1fr}
@@ -134,10 +195,76 @@ footer{background:#171329;color:#bbb;padding:35px 0}.foot{display:flex;justify-c
 </div>
 </div></section>
 
-<section class="contact" id="contact"><div class="container">
-<div class="section-title"><h2>Let's Grow Jeveni Together.</h2><p>Retailer, distributor, business enquiry or customer support — connect with us.</p></div>
-<div class="contact-card"><h3>Jeveni — Care Beyond Limits</h3><p style="margin-top:8px">Replace this section with your official phone number, WhatsApp, email and business address.</p><a class="btn" href="mailto:YOUR-EMAIL@example.com">Send Business Enquiry</a></div>
-</div></section>
+<section class="contact" id="contact">
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Let's Grow Jeveni Together.</h2>
+      <p>
+        Retailer, distributor, business enquiry or customer support — connect with us.
+      </p>
+    </div>
+
+    <div class="contact-card">
+      <h3>Jeveni — Care Beyond Limits</h3>
+
+      <p class="contact-intro">
+        Amber Feminine Care
+      </p>
+
+      <div class="contact-details">
+
+        <div class="contact-item">
+          <strong>📍 Address</strong>
+          <span>
+            Lock Chowk, Ormanjhi,<br>
+            Ranchi, Jharkhand - 835219
+          </span>
+        </div>
+
+        <div class="contact-item">
+          <strong>📞 Helpline</strong>
+          <span>
+            <a href="tel:+919296082231">9296082231</a><br>
+            <a href="tel:+919304084400">9304084400</a>
+          </span>
+        </div>
+
+        <div class="contact-item">
+          <strong>✉️ Email</strong>
+          <span>
+            <a href="mailto:amberjeveni@gmail.com">
+              amberjeveni@gmail.com
+            </a><br>
+            <a href="mailto:danishmaaj1234@gmail.com">
+              danishmaaj1234@gmail.com
+            </a>
+          </span>
+        </div>
+
+      </div>
+
+      <div class="contact-buttons">
+        <a
+          class="btn contact-btn"
+          href="https://wa.me/919296082231"
+          target="_blank"
+          rel="noopener"
+        >
+          WhatsApp Us
+        </a>
+
+        <a
+          class="btn contact-btn"
+          href="mailto:amberjeveni@gmail.com"
+        >
+          Send Business Enquiry
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 <footer><div class="container foot"><div><strong>Jeveni</strong><br>Better Care, Better Life.</div><div>© 2026 Jeveni. All rights reserved.</div></div></footer>
 
