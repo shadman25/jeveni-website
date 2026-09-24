@@ -142,19 +142,13 @@ footer{background:#171329;color:#bbb;padding:35px 0}.foot{display:flex;justify-c
 <footer><div class="container foot"><div><strong>Jeveni</strong><br>Better Care, Better Life.</div><div>© 2026 Jeveni. All rights reserved.</div></div></footer>
 
 
-<!-- Supabase + dynamic product loader
-     Phase 1: The page keeps the existing products as a visual fallback.
-     In Phase 2, replace the two placeholder values below with your Supabase
-     project URL and publishable/anon key, then products will be loaded from
-     the products table.
--->
+<!-- Supabase + dynamic product loader -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  // IMPORTANT: Never put a Supabase service_role/secret key here.
-  // Only use the public publishable/anon key intended for browser use.
-  const JEVENI_SUPABASE_URL = "YOUR_SUPABASE_URL";
-  const JEVENI_SUPABASE_ANON_KEY = "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY";
-
+  // Replace these two placeholders with your Supabase Project URL and publishable key.
+  // Never put a service_role/secret key in this file.
+  const JEVENI_SUPABASE_URL = "https://athuczqpkpgqdmqyvlww.supabase.co";
+  const JEVENI_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_BWuILR9iUVcHPUx9Gt1VVg_vWfkKi-C";
   const productGrid = document.getElementById("productGrid");
 
   function escapeHtml(value) {
@@ -168,83 +162,37 @@ footer{background:#171329;color:#bbb;padding:35px 0}.foot{display:flex;justify-c
 
   function renderDynamicProducts(products) {
     if (!productGrid || !Array.isArray(products)) return;
-
-    if (products.length === 0) {
-      productGrid.innerHTML = `
-        <div class="product" style="grid-column:1/-1;padding:30px;text-align:center">
-          <div class="product-body">
-            <h3>Products coming soon</h3>
-            <p>New Jeveni products will be added here.</p>
-          </div>
-        </div>`;
+    if (!products.length) {
+      productGrid.innerHTML = `<div class="product" style="grid-column:1/-1;padding:30px;text-align:center"><div class="product-body"><h3>Products coming soon</h3><p>New Jeveni products will be added here.</p></div></div>`;
       return;
     }
-
     productGrid.innerHTML = products.map(product => {
       const image = product.image_url
-        ? `<img src="${escapeHtml(product.image_url)}" alt="${escapeHtml(product.name)}">`
+        ? `<img src="${escapeHtml(product.image_url)}" alt="${escapeHtml(product.name)}" loading="lazy">`
         : `<div style="font-size:52px">🌸</div>`;
-
       const details = [
         product.size_variant ? `Size: ${escapeHtml(product.size_variant)}` : "",
         product.pack_size ? `Pack: ${escapeHtml(product.pack_size)}` : ""
       ].filter(Boolean).join(" • ");
-
       const whatsappNumber = "9304084400";
-      const message = encodeURIComponent(
-        `Hi, I am interested in ${product.name}${product.pack_size ? ` (${product.pack_size})` : ""}. Please share more details.`
-      );
-
-      return `
-        <article class="product">
-          <div class="pic">${image}</div>
-          <div class="product-body">
-            <span class="tag">${escapeHtml(product.category || "JEVENI")}</span>
-            <h3>${escapeHtml(product.name)}</h3>
-            <p>${escapeHtml(product.description || "")}</p>
-            ${details ? `<p style="margin-top:8px"><strong>${details}</strong></p>` : ""}
-            ${product.usage_information ? `<p style="margin-top:8px">${escapeHtml(product.usage_information)}</p>` : ""}
-            <a class="btn primary" style="display:inline-block;margin-top:15px"
-               target="_blank" rel="noopener"
-               href="https://wa.me/${whatsappNumber}?text=${message}">Enquire</a>
-          </div>
-        </article>`;
+      const message = encodeURIComponent(`Hi, I am interested in ${product.name}${product.pack_size ? ` (${product.pack_size})` : ""}. Please share more details.`);
+      return `<article class="product"><div class="pic">${image}</div><div class="product-body"><span class="tag">${escapeHtml(product.category || "JEVENI")}</span><h3>${escapeHtml(product.name)}</h3><p>${escapeHtml(product.description || "")}</p>${details ? `<p style="margin-top:8px"><strong>${details}</strong></p>` : ""}${product.usage ? `<p style="margin-top:8px">${escapeHtml(product.usage)}</p>` : ""}<a class="btn primary" style="display:inline-block;margin-top:15px" target="_blank" rel="noopener" href="https://wa.me/${whatsappNumber}?text=${message}">Enquire</a></div></article>`;
     }).join("");
   }
 
   async function loadJeveniProducts() {
-    if (!window.supabase) return;
-
-    if (
-      !JEVENI_SUPABASE_URL ||
-      !JEVENI_SUPABASE_ANON_KEY ||
-      JEVENI_SUPABASE_URL === "YOUR_SUPABASE_URL" ||
-      JEVENI_SUPABASE_ANON_KEY === "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY"
-    ) {
-      // Supabase is not configured yet. Keep the original static products.
-      return;
-    }
-
-    const { createClient } = window.supabase;
-    const client = createClient(
-      JEVENI_SUPABASE_URL,
-      JEVENI_SUPABASE_ANON_KEY
-    );
-
-    const { data, error } = await client
-      .from("products")
-      .select("id,name,category,description,features,size_variant,pack_size,usage_information,image_url,is_active,display_order")
-      .eq("is_active", true)
-      .order("display_order", { ascending: true });
-
-    if (error) {
+    if (!window.supabase || !productGrid) return;
+    if (!JEVENI_SUPABASE_URL || !JEVENI_SUPABASE_PUBLISHABLE_KEY || JEVENI_SUPABASE_URL.includes("YOUR_") || JEVENI_SUPABASE_PUBLISHABLE_KEY.includes("YOUR_")) return;
+    try {
+      const client = window.supabase.createClient(JEVENI_SUPABASE_URL, JEVENI_SUPABASE_PUBLISHABLE_KEY);
+      const { data, error } = await client.from("products").select("id,name,category,description,size_variant,pack_size,usage,image_url,is_active,display_order").eq("is_active", true).order("display_order", { ascending: true }).order("created_at", { ascending: false });
+      if (error) throw error;
+      renderDynamicProducts(data || []);
+    } catch (error) {
+      // Keep the original static products visible if Supabase is unavailable.
       console.error("Jeveni product loading failed:", error);
-      return;
     }
-
-    renderDynamicProducts(data || []);
   }
-
   loadJeveniProducts();
 </script>
 
